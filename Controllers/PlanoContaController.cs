@@ -33,8 +33,14 @@ namespace Financeiro.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult CriarPlanoConta()
+        public IActionResult CriarPlanoConta(int? id)
         {
+
+            if (id != null)
+            {
+                PlanoContaModel objPlanoConta = new PlanoContaModel(HttpContextAccessor);
+                ViewBag.Registro = objPlanoConta.CarregarRegistro(id);
+            }
             return View();
         }
         [HttpGet]

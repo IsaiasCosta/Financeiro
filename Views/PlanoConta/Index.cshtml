@@ -27,7 +27,7 @@
                     <td><button type="button" class="btn btn-danger" onclick="Excluir(@item.IdPlano.ToString())">Excluir</button></td>
                     <td>@item.IdPlano.ToString()</td>
                     <td>@item.Descricao.ToString()</td>
-                    <td>@item.Tipo.ToString()</td>
+                    <td>@item.Tipo.ToString().Replace("R","Receita").Replace("D","Despesa")</td>
                 </tr>
             </tbody>
         }
@@ -40,7 +40,7 @@
 
 <script>
     function CriarPlanoConta() { window.location.href = "../PlanoConta/CriarPlanoConta"; }
-    function Editar(id_conta) { window.location.href = "../PlanoConta/CriarPlanoConta"; }
+    function Editar(id_conta) { window.location.href = "../PlanoConta/CriarPlanoConta/"; + id_conta }
     function Excluir(id_conta) { window.location.href = "../PlanoConta/ExcluirPlanoConta/" + id_conta; }
 
 </script>

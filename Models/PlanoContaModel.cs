@@ -51,10 +51,36 @@ namespace Financeiro.Models
             }
             return lista;
         }
+
+        public PlanoContaModel CarregarRegistro(int? id)
+        {
+            PlanoContaModel item = new PlanoContaModel();
+            string id_usuario_logado = HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado");
+            string sql = $"SELECT IDPLANO, DESCRICAO,TIPO, USUARIO_ID FROM PLANO_CONTAS WHERE USUARIO_ID={id_usuario_logado} AND IDPLANO ={IdPlano}";
+            DAL objDAL = new DAL();
+            DataTable dt = objDAL.RetDataTable(sql);
+            item.IdPlano = int.Parse(dt.Rows[0]["IDPLANO"].ToString());
+            item.Descricao = dt.Rows[0]["DESCRICAO"].ToString();
+            item.Tipo = dt.Rows[0]["TIPO"].ToString();
+            item.Usuario_id = int.Parse(dt.Rows[0]["USUARIO_ID"].ToString());
+
+            return item;
+        }
+
         public void Insert()
         {
             string id_usuario_logado = HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado");
-            string sql = $" INSERT INTO PLANO_CONTAS (DESCRICAO, TIPO, USUARIO_ID)VALUES('{Descricao}','{Tipo}','{id_usuario_logado}')";
+
+            string sql = "" ;
+            if (IdPlano == 0)
+            {
+                 sql = $" INSERT INTO PLANO_CONTAS (DESCRICAO, TIPO, USUARIO_ID)VALUES('{Descricao}','{Tipo}','{id_usuario_logado}')";
+            }
+            else {
+                sql = $"UPDATE PLANO_CONTAS SET DESCRICAO ='{Descricao}', TIPO = '{Tipo}' WHERE USUARIO_ID ='{id_usuario_logado}' AND IDPLANO ={IdPlano}";
+
+            }
+           
             DAL objDAJ= new DAL();
             objDAJ.ExecultarComandosSQL(sql);
 
